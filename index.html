@@ -309,8 +309,8 @@
               <th>Nome</th>
               <th>Categoria</th>
               <th>Tot. persone</th>
-              <th>Bimbi &gt;5 anni</th>
-              <th>Bimbi ≤5 anni</th>
+              <th>Bimbi 6+ anni (pagano)</th>
+              <th>Bimbi &lt;6 anni (gratis)</th>
               <th>Invito consegnato</th>
               <th>Risposta</th>
               <th></th>
@@ -428,6 +428,19 @@ function loadState(){
     const parsed = JSON.parse(raw);
     // basic shape safety
     if(!parsed.categories || !parsed.guests || !parsed.tables || !parsed.vendors) return defaultState();
+    // migrate legacy child-age fields (was >5 / <=5, now 6+ / <6)
+    parsed.guests.forEach(g=>{
+      if(g.bimbiOver6 === undefined && g.bimbiOver5 !== undefined) g.bimbiOver6 = g.bimbiOver5;
+      if(g.bimbiUnder6 === undefined && g.bimbiUnder5 !== undefined) g.bimbiUnder6 = g.bimbiUnder5;
+      if(g.bimbiOver6 === undefined) g.bimbiOver6 = 0;
+      if(g.bimbiUnder6 === undefined) g.bimbiUnder6 = 0;
+      delete g.bimbiOver5; delete g.bimbiUnder5;
+    });
+    parsed.vendors.forEach(v=>{
+      if(v.pagato === undefined) v.pagato = 0;
+      if(v.saldato === undefined) v.saldato = false;
+      if(v.perPersona === undefined) v.perPersona = false;
+    });
     return parsed;
   }catch(e){ return defaultState(); }
 }
@@ -468,7 +481,7 @@ function renderCategories(){
 function addGuest(){
   state.guests.push({
     id: uid(), nome:"", categoria:0, numPersone:1,
-    bimbiOver5:0, bimbiUnder5:0, consegnato:false, risposta:"attesa"
+    bimbiOver6:0, bimbiUnder6:0, consegnato:false, risposta:"attesa"
   });
   save(); renderGuests();
 }
@@ -479,8 +492,8 @@ function renderGuestStats(){
   const confermati = g.filter(x=>x.risposta==="si").reduce((s,x)=>s+(Number(x.numPersone)||0),0);
   const inAttesa = g.filter(x=>x.risposta==="attesa").length;
   const rifiutati = g.filter(x=>x.risposta==="no").length;
-  const over5 = g.reduce((s,x)=>s+(Number(x.bimbiOver5)||0),0);
-  const under5 = g.reduce((s,x)=>s+(Number(x.bimbiUnder5)||0),0);
+  const over6 = g.reduce((s,x)=>s+(Number(x.bimbiOver6)||0),0);
+  const under6 = g.reduce((s,x)=>s+(Number(x.bimbiUnder6)||0),0);
   const consegnati = g.filter(x=>x.consegnato).length;
 
   const stats = [
@@ -488,8 +501,8 @@ function renderGuestStats(){
     [confermati, "Confermate (sì)"],
     [inAttesa, "Nuclei in attesa"],
     [rifiutati, "Nuclei che hanno declinato"],
-    [over5, "Bimbi > 5 anni"],
-    [under5, "Bimbi ≤ 5 anni"],
+    [over6, "Bimbi 6+ anni (pagano)"],
+    [under6, "Bimbi <6 anni (gratis)"],
     [consegnati+"/"+g.length, "Inviti consegnati"],
   ];
   document.getElementById("guestStats").innerHTML = stats.map(([n,l])=>`
@@ -514,8 +527,8 @@ function renderGuests(){
       <td><input type="text" value="${escapeHtml(g.nome)}" data-f="nome" placeholder="Nome invitato"></td>
       <td><select data-f="categoria">${catOptions}</select></td>
       <td><input type="number" min="1" value="${g.numPersone}" data-f="numPersone"></td>
-      <td><input type="number" min="0" value="${g.bimbiOver5}" data-f="bimbiOver5"></td>
-      <td><input type="number" min="0" value="${g.bimbiUnder5}" data-f="bimbiUnder5"></td>
+      <td><input type="number" min="0" value="${g.bimbiOver6}" data-f="bimbiOver6"></td>
+      <td><input type="number" min="0" value="${g.bimbiUnder6}" data-f="bimbiUnder6"></td>
       <td style="text-align:center;"><input type="checkbox" class="chk" ${g.consegnato?"checked":""} data-f="consegnato"></td>
       <td><select data-f="risposta" class="${respClass}">
             <option value="attesa" ${g.risposta==="attesa"?"selected":""}>In attesa</option>
@@ -729,12 +742,33 @@ function renderSeating(){
 /* ==================================================================
    TAB 3 — VENDORS
    ================================================================== */
+const PREZZO_BIMBO_6PIU = 25;
+
+function confirmedBreakdown(){
+  const confirmed = state.guests.filter(g=>g.risposta==="si");
+  const bimbiPaganti = confirmed.reduce((s,g)=>s+(Number(g.bimbiOver6)||0),0);
+  const bimbiGratis = confirmed.reduce((s,g)=>s+(Number(g.bimbiUnder6)||0),0);
+  const totPersone = confirmed.reduce((s,g)=>s+(Number(g.numPersone)||0),0);
+  const adulti = Math.max(0, totPersone - bimbiPaganti - bimbiGratis);
+  return { adulti, bimbiPaganti, bimbiGratis, totPersone };
+}
 function confirmedPersone(){
-  return state.guests.filter(g=>g.risposta==="si").reduce((s,g)=>s+(Number(g.numPersone)||0),0);
+  return confirmedBreakdown().totPersone;
 }
 function vendorTotal(v){
   const prezzo = Number(v.prezzo)||0;
-  return v.perPersona ? prezzo * confirmedPersone() : prezzo;
+  if(!v.perPersona) return prezzo;
+  const { adulti, bimbiPaganti } = confirmedBreakdown();
+  return (prezzo * adulti) + (PREZZO_BIMBO_6PIU * bimbiPaganti);
+}
+
+function vendorTotalNote(v){
+  if(!v.perPersona) return "";
+  const { adulti, bimbiPaganti, bimbiGratis } = confirmedBreakdown();
+  let txt = `${adulti} adulti`;
+  if(bimbiPaganti) txt += ` + ${bimbiPaganti} bimbi 6+ (€${PREZZO_BIMBO_6PIU} cad.)`;
+  if(bimbiGratis) txt += ` + ${bimbiGratis} bimbi gratis`;
+  return `<div style="font-weight:500; font-size:11px; color:var(--ink-soft);">${txt}</div>`;
 }
 
 function renderVendorStats(){
@@ -767,8 +801,8 @@ function renderVendors(){
       <td><input type="text" value="${escapeHtml(v.nome)}" data-f="nome" placeholder="Nome fornitore"></td>
       <td><label class="booked-toggle"><input type="checkbox" class="chk" ${v.prenotato?"checked":""} data-f="prenotato"> ${v.prenotato ? "Sì" : "No"}</label></td>
       <td><input type="number" min="0" value="${v.prezzo}" data-f="prezzo" placeholder="0"></td>
-      <td style="text-align:center;"><label class="booked-toggle" title="Moltiplica per le persone confermate (risposta Sì)"><input type="checkbox" class="chk" ${v.perPersona?"checked":""} data-f="perPersona"></label></td>
-      <td class="vendor-total" style="font-weight:700; color:var(--lilla-deep); white-space:nowrap;">€ ${vendorTotal(v).toLocaleString('it-IT')}${v.perPersona ? `<div style="font-weight:500; font-size:11px; color:var(--ink-soft);">${confirmedPersone()} persone conf.</div>` : ""}</td>
+      <td style="text-align:center;"><label class="booked-toggle" title="Prezzo per adulto confermato. I bimbi 6+ pagano €25 fissi, i bimbi <6 anni sono gratis."><input type="checkbox" class="chk" ${v.perPersona?"checked":""} data-f="perPersona"></label></td>
+      <td class="vendor-total" style="font-weight:700; color:var(--lilla-deep); white-space:nowrap;">€ ${vendorTotal(v).toLocaleString('it-IT')}${vendorTotalNote(v)}</td>
       <td><input type="number" min="0" value="${v.pagato}" data-f="pagato" placeholder="0"></td>
       <td style="text-align:center;">
         <label class="booked-toggle" title="Segna come saldato">
@@ -798,7 +832,7 @@ function renderVendors(){
         }
         save();
         renderVendorStats();
-        totalTd.innerHTML = `€ ${vendorTotal(v).toLocaleString('it-IT')}${v.perPersona ? `<div style="font-weight:500; font-size:11px; color:var(--ink-soft);">${confirmedPersone()} persone conf.</div>` : ""}`;
+        totalTd.innerHTML = `€ ${vendorTotal(v).toLocaleString('it-IT')}${vendorTotalNote(v)}`;
       });
     });
     tr.querySelector(".icon-btn").addEventListener("click", ()=>{
