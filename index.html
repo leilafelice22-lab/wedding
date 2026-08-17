@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Nostro Matrimonio · Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lilla: #b79cd6;
+    --lilla-deep: #8a68b8;
+    --lilla-soft: #ece3f7;
+    --limone: #f4e04d;
+    --limone-soft: #fbf3b9;
+    --ink: #3a3345;
+    --ink-soft: #6f6680;
+    --white: #ffffff;
+    --line: #e9e2f2;
+    --ok: #6fbf8b;
+    --ok-bg: #e7f6ec;
+    --warn: #e0a94a;
+    --warn-bg: #fbf0dc;
+    --danger: #e0708a;
+    --danger-bg: #fce8ee;
+    --radius: 18px;
+    --shadow: 0 8px 24px rgba(138, 104, 184, 0.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Quicksand', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3, .script{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    color:var(--lilla-deep);
+  }
+  /* ---------- Header ---------- */
+  header{
+    padding:38px 6vw 26px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 12% 20%, var(--limone-soft) 0, transparent 40%),
+      radial-gradient(circle at 90% 10%, var(--lilla-soft) 0, transparent 45%);
+  }
+  header .eyebrow{
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  header h1{
+    font-size:clamp(34px, 6vw, 58px);
+    margin:6px 0 4px;
+    font-style:italic;
+  }
+  header .sub{
+    color:var(--ink-soft);
+    font-size:14.5px;
+  }
+  .sprig{
+    position:absolute; font-size:26px; opacity:.55; user-select:none;
+  }
+  .sprig.s1{ top:18px; left:6%; transform:rotate(-15deg);}
+  .sprig.s2{ top:30px; right:8%; transform:rotate(18deg);}
+  .sprig.s3{ bottom:8px; left:14%; transform:rotate(8deg);}
+
+  /* ---------- Tabs ---------- */
+  nav.tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    padding:0 6vw 26px;
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    border:2px solid var(--lilla-soft);
+    background:var(--white);
+    color:var(--lilla-deep);
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    padding:10px 22px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:.18s ease;
+    letter-spacing:.01em;
+  }
+  nav.tabs button:hover{ border-color:var(--lilla); background:var(--lilla-soft); }
+  nav.tabs button.active{
+    background:var(--lilla);
+    border-color:var(--lilla);
+    color:var(--white);
+    box-shadow:var(--shadow);
+  }
+
+  main{ padding:0 6vw 80px; max-width:1320px; margin:0 auto; }
+  section.panel{ display:none; animation:fade .25s ease; }
+  section.panel.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Cards & stats ---------- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:14px;
+    margin-bottom:26px;
+  }
+  .stat-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+  .stat-card::before{
+    content:"";
+    position:absolute; top:-20px; right:-20px;
+    width:60px; height:60px; border-radius:50%;
+    background:var(--limone-soft);
+    opacity:.7;
+  }
+  .stat-card .num{ font-family:'Cormorant Garamond', serif; font-size:34px; font-weight:600; color:var(--lilla-deep); position:relative;}
+  .stat-card .label{ font-size:12.5px; color:var(--ink-soft); font-weight:600; text-transform:uppercase; letter-spacing:.04em; position:relative;}
+
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px;
+    margin-bottom:24px;
+  }
+  .card h2{ margin:0 0 4px; font-size:24px; }
+  .card .desc{ color:var(--ink-soft); font-size:13.5px; margin-bottom:16px;}
+
+  /* buttons */
+  .btn{
+    border:none; cursor:pointer; font-family:'Quicksand',sans-serif; font-weight:700;
+    padding:10px 18px; border-radius:12px; font-size:13.5px; transition:.15s ease;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .btn-primary{ background:var(--lilla); color:#fff; }
+  .btn-primary:hover{ background:var(--lilla-deep); }
+  .btn-accent{ background:var(--limone); color:var(--ink); }
+  .btn-accent:hover{ filter:brightness(0.95); }
+  .btn-ghost{ background:var(--lilla-soft); color:var(--lilla-deep); }
+  .btn-ghost:hover{ background:#ddcdf0; }
+  .btn-danger{ background:var(--danger-bg); color:var(--danger); }
+  .btn-danger:hover{ background:#f8d3de; }
+  .btn-sm{ padding:6px 12px; font-size:12px; border-radius:9px;}
+  .btn:disabled{ opacity:.45; cursor:not-allowed; }
+
+  .toolbar{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
+  .toolbar .actions{ display:flex; gap:8px; flex-wrap:wrap; }
+
+  /* ---------- Table (guests) ---------- */
+  .table-wrap{ overflow-x:auto; border-radius:14px; border:1px solid var(--line);}
+  table.guests{ width:100%; border-collapse:collapse; min-width:1150px; font-size:13.5px;}
+  table.guests th{
+    background:var(--lilla-soft); color:var(--lilla-deep);
+    text-align:left; padding:10px 10px; font-weight:700; font-size:12px;
+    text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;
+  }
+  table.guests td{ padding:7px 10px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  table.guests tr:hover td{ background:#faf7fd; }
+  table.guests input[type=text], table.guests input[type=number], table.guests select{
+    border:1px solid var(--line); border-radius:8px; padding:6px 8px; font-family:'Quicksand',sans-serif;
+    font-size:13px; width:100%; background:#fff; color:var(--ink);
+  }
+  table.guests input[type=number]{ width:64px; }
+  table.guests input:focus, table.guests select:focus{ outline:2px solid var(--lilla); outline-offset:1px;}
+  .chk{ width:18px; height:18px; accent-color:var(--lilla-deep); cursor:pointer; }
+  .pill{ padding:4px 10px; border-radius:999px; font-weight:700; font-size:12px; display:inline-block; }
+  .pill-si{ background:var(--ok-bg); color:var(--ok); }
+  .pill-no{ background:var(--danger-bg); color:var(--danger); }
+  .pill-attesa{ background:var(--warn-bg); color:var(--warn); }
+  select.resp-si{ background:var(--ok-bg); color:var(--ok); font-weight:700;}
+  select.resp-no{ background:var(--danger-bg); color:var(--danger); font-weight:700;}
+  select.resp-attesa{ background:var(--warn-bg); color:var(--warn); font-weight:700;}
+
+  .icon-btn{ background:none; border:none; cursor:pointer; font-size:16px; color:var(--danger); padding:4px 6px; border-radius:8px; }
+  .icon-btn:hover{ background:var(--danger-bg); }
+
+  /* categories settings */
+  .cat-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;}
+  .cat-row input{ border:1px solid var(--line); border-radius:9px; padding:7px 10px; font-family:'Quicksand',sans-serif; font-size:13px; min-width:150px; flex:1;}
+
+  /* ---------- Seating ---------- */
+  .seating-layout{ display:grid; grid-template-columns: 300px 1fr; gap:22px; align-items:flex-start; }
+  @media(max-width:880px){ .seating-layout{ grid-template-columns:1fr; } }
+
+  .unassigned-list{ display:flex; flex-direction:column; gap:8px; max-height:640px; overflow-y:auto; padding-right:4px;}
+  .guest-chip{
+    background:var(--white); border:1.5px solid var(--lilla-soft); border-radius:12px;
+    padding:9px 12px; cursor:grab; font-size:13px; font-weight:600; color:var(--ink);
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+    transition:.15s ease;
+  }
+  .guest-chip:hover{ border-color:var(--lilla); box-shadow:0 3px 10px rgba(138,104,184,.15); transform:translateY(-1px);}
+  .guest-chip .n{ background:var(--limone-soft); color:#7a6a10; font-size:11px; font-weight:700; padding:2px 7px; border-radius:999px; }
+  .guest-chip.dragging{ opacity:.4; }
+
+  .tables-area{ display:flex; flex-wrap:wrap; gap:28px; }
+  .table-block{ display:flex; flex-direction:column; align-items:center; width:220px;}
+  .round-table{
+    width:200px; height:200px; border-radius:50%;
+    border:5px solid var(--lilla-soft);
+    background: repeating-conic-gradient(from 0deg, #fff 0deg 8deg, #fbf8fe 8deg 16deg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    position:relative; transition:.18s ease; padding:14px;
+  }
+  .round-table.dragover{ border-color:var(--limone); box-shadow:0 0 0 6px var(--limone-soft); }
+  .round-table.under-min{ border-color:var(--warn); }
+  .round-table.full{ border-color:var(--ok); }
+  .round-table .t-name{ font-family:'Cormorant Garamond', serif; font-weight:700; font-size:18px; color:var(--lilla-deep); text-align:center;}
+  .round-table .t-count{ font-size:12px; font-weight:700; color:var(--ink-soft); margin-top:2px;}
+  .round-table .t-guests{
+    display:flex; flex-wrap:wrap; gap:3px; justify-content:center; margin-top:6px; max-height:78px; overflow-y:auto; width:100%;
+  }
+  .round-table .t-guests .mini-chip{
+    background:var(--lilla); color:#fff; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:999px; cursor:grab;
+  }
+  .table-status{ font-size:11.5px; font-weight:700; margin-top:8px; padding:3px 10px; border-radius:999px;}
+  .table-status.ok{ background:var(--ok-bg); color:var(--ok);}
+  .table-status.warn{ background:var(--warn-bg); color:var(--warn);}
+  .table-remove{ margin-top:6px; }
+  .add-table-form{ display:flex; gap:8px; flex-wrap:wrap; align-items:end; }
+  .field{ display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--ink-soft); font-weight:700;}
+  .field input{ border:1px solid var(--line); border-radius:9px; padding:8px 10px; font-family:'Quicksand'; width:90px;}
+
+  /* ---------- Vendors ---------- */
+  table.vendors{ width:100%; border-collapse:collapse; min-width:900px; font-size:13.5px;}
+  table.vendors th{ background:var(--lilla-soft); color:var(--lilla-deep); text-align:left; padding:10px; font-size:12px; text-transform:uppercase; letter-spacing:.03em;}
+  table.vendors td{ padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  table.vendors input[type=text], table.vendors textarea{
+    border:1px solid var(--line); border-radius:8px; padding:6px 8px; font-family:'Quicksand'; font-size:13px; width:100%;
+  }
+  table.vendors input[type=number]{ border:1px solid var(--line); border-radius:8px; padding:6px 8px; font-family:'Quicksand'; font-size:13px; width:100px;}
+  table.vendors textarea{ resize:vertical; min-height:38px; font-size:12.5px;}
+  .booked-toggle{ display:flex; align-items:center; gap:6px; cursor:pointer; }
+
+  footer{ text-align:center; padding:30px; color:var(--ink-soft); font-size:12px;}
+  footer span{ color:var(--lilla-deep); font-weight:700;}
+
+  .empty-hint{ text-align:center; padding:30px; color:var(--ink-soft); font-size:13.5px; font-style:italic;}
+
+  ::-webkit-scrollbar{ height:8px; width:8px; }
+  ::-webkit-scrollbar-thumb{ background:var(--lilla-soft); border-radius:8px;}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="sprig s1">🌿</span><span class="sprig s2">🌸</span><span class="sprig s3">🌿</span>
+  <div class="eyebrow">Wedding Planner</div>
+  <h1>Il Nostro Matrimonio</h1>
+  <div class="sub">Invitati · Seating · Fornitori — tutto in un posto solo</div>
+</header>
+
+<nav class="tabs">
+  <button data-tab="invitati" class="active">💌 Invitati</button>
+  <button data-tab="seating">🌸 Seating Map</button>
+  <button data-tab="fornitori">🧾 Fornitori</button>
+</nav>
+
+<main>
+
+  <!-- ============ TAB 1: INVITATI ============ -->
+  <section id="tab-invitati" class="panel active">
+
+    <div class="stats" id="guestStats"></div>
+
+    <div class="card">
+      <h2>Categorie invitati</h2>
+      <div class="desc">Rinomina le categorie come preferisci — verranno usate nel menu a tendina della lista.</div>
+      <div class="cat-row" id="catRow"></div>
+    </div>
+
+    <div class="card">
+      <div class="toolbar">
+        <div>
+          <h2 style="margin-bottom:2px;">Lista invitati</h2>
+          <div class="desc" style="margin-bottom:0;">Il numero persone include l'invitato principale (es. "Antonio" + 3 = 4 persone totali).</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-accent" id="btnAddGuest">＋ Aggiungi invitato</button>
+          <button class="btn btn-ghost btn-sm" id="btnExport">⬇ Esporta backup</button>
+          <button class="btn btn-ghost btn-sm" id="btnImportTrigger">⬆ Importa backup</button>
+          <input type="file" id="btnImport" accept="application/json" style="display:none;">
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="guests">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th>Tot. persone</th>
+              <th>Bimbi &gt;5 anni</th>
+              <th>Bimbi ≤5 anni</th>
+              <th>Invito consegnato</th>
+              <th>Risposta</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="guestBody"></tbody>
+        </table>
+      </div>
+      <div id="guestEmpty" class="empty-hint" style="display:none;">Nessun invitato ancora — aggiungine uno per iniziare 💌</div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 2: SEATING ============ -->
+  <section id="tab-seating" class="panel">
+    <div class="card">
+      <h2>Nuovo tavolo</h2>
+      <div class="desc">Imposta un range di persone per tavolo (es. min 6 – max 9) e disegnalo sulla piantina.</div>
+      <div class="add-table-form">
+        <div class="field">Nome tavolo
+          <input type="text" id="newTableName" placeholder="Tavolo 1">
+        </div>
+        <div class="field">Min persone
+          <input type="number" id="newTableMin" value="6" min="1">
+        </div>
+        <div class="field">Max persone
+          <input type="number" id="newTableMax" value="9" min="1">
+        </div>
+        <button class="btn btn-accent" id="btnAddTable">＋ Aggiungi tavolo</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Piantina</h2>
+      <div class="desc">Trascina gli invitati sui tavoli. Il sistema blocca se superi il massimo e segnala in giallo se sei sotto il minimo.</div>
+      <div class="seating-layout">
+        <div>
+          <h3 style="font-size:16px; margin:0 0 10px;">Invitati da assegnare</h3>
+          <div class="unassigned-list" id="unassignedList"></div>
+        </div>
+        <div class="tables-area" id="tablesArea"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB 3: FORNITORI ============ -->
+  <section id="tab-fornitori" class="panel">
+    <div class="stats" id="vendorStats"></div>
+    <div class="card">
+      <div class="toolbar">
+        <h2 style="margin:0;">Fornitori</h2>
+        <div class="actions">
+          <button class="btn btn-accent" id="btnAddVendor">＋ Aggiungi fornitore</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="vendors">
+          <thead>
+            <tr>
+              <th style="width:16%;">Categoria</th>
+              <th style="width:18%;">Nome fornitore</th>
+              <th style="width:10%;">Prenotato</th>
+              <th style="width:12%;">Prezzo (€)</th>
+              <th>Dettagli / contatti</th>
+              <th style="width:40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="vendorBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Fatto con <span>🌸</span> per il grande giorno</footer>
+
+<script>
+/* ==================================================================
+   STATE
+   ================================================================== */
+const STORAGE_KEY = "weddingPlannerData_v1";
+const uid = () => Math.random().toString(36).slice(2,10);
+
+const defaultState = () => ({
+  categories: ["Amici Sposo","Amici Sposa","Famiglia Sposo","Famiglia Sposa","In comune"],
+  guests: [],
+  tables: [],
+  vendors: [
+    ["Location","",false,"",""],
+    ["Catering","",false,"",""],
+    ["Fotografo","",false,"",""],
+    ["Videomaker","",false,"",""],
+    ["Fiorista","",false,"",""],
+    ["Musica / DJ","",false,"",""],
+    ["Wedding Planner","",false,"",""],
+    ["Trucco e Parrucco","",false,"",""],
+    ["Abito Sposa","",false,"",""],
+    ["Abito Sposo","",false,"",""],
+    ["Fedi","",false,"",""],
+    ["Auto / Noleggio","",false,"",""],
+    ["Torta Nuziale","",false,"",""],
+    ["Inviti e Partecipazioni","",false,"",""],
+    ["Celebrante","",false,"",""],
+  ].map(v => ({ id: uid(), categoria:v[0], nome:v[1], prenotato:v[2], prezzo:v[3], dettagli:v[4] }))
+});
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    // basic shape safety
+    if(!parsed.categories || !parsed.guests || !parsed.tables || !parsed.vendors) return defaultState();
+    return parsed;
+  }catch(e){ return defaultState(); }
+}
+let state = loadState();
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+/* ==================================================================
+   TAB SWITCHING
+   ================================================================== */
+document.querySelectorAll("nav.tabs button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll("section.panel").forEach(p=>p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
+    if(btn.dataset.tab === "seating") renderSeating();
+  });
+});
+
+/* ==================================================================
+   TAB 1 — GUESTS
+   ================================================================== */
+function renderCategories(){
+  const row = document.getElementById("catRow");
+  row.innerHTML = "";
+  state.categories.forEach((cat,i)=>{
+    const input = document.createElement("input");
+    input.type="text"; input.value = cat;
+    input.addEventListener("change", e=>{
+      state.categories[i] = e.target.value || cat;
+      save(); renderGuests();
+    });
+    row.appendChild(input);
+  });
+}
+
+function addGuest(){
+  state.guests.push({
+    id: uid(), nome:"", categoria:0, numPersone:1,
+    bimbiOver5:0, bimbiUnder5:0, consegnato:false, risposta:"attesa"
+  });
+  save(); renderGuests();
+}
+
+function renderGuestStats(){
+  const g = state.guests;
+  const totPersone = g.reduce((s,x)=>s+(Number(x.numPersone)||0),0);
+  const confermati = g.filter(x=>x.risposta==="si").reduce((s,x)=>s+(Number(x.numPersone)||0),0);
+  const inAttesa = g.filter(x=>x.risposta==="attesa").length;
+  const rifiutati = g.filter(x=>x.risposta==="no").length;
+  const over5 = g.reduce((s,x)=>s+(Number(x.bimbiOver5)||0),0);
+  const under5 = g.reduce((s,x)=>s+(Number(x.bimbiUnder5)||0),0);
+  const consegnati = g.filter(x=>x.consegnato).length;
+
+  const stats = [
+    [totPersone, "Persone totali"],
+    [confermati, "Confermate (sì)"],
+    [inAttesa, "Nuclei in attesa"],
+    [rifiutati, "Nuclei che hanno declinato"],
+    [over5, "Bimbi > 5 anni"],
+    [under5, "Bimbi ≤ 5 anni"],
+    [consegnati+"/"+g.length, "Inviti consegnati"],
+  ];
+  document.getElementById("guestStats").innerHTML = stats.map(([n,l])=>`
+    <div class="stat-card"><div class="num">${n}</div><div class="label">${l}</div></div>
+  `).join("");
+}
+
+function renderGuests(){
+  renderCategories();
+  const body = document.getElementById("guestBody");
+  const empty = document.getElementById("guestEmpty");
+  body.innerHTML = "";
+  empty.style.display = state.guests.length ? "none" : "block";
+
+  state.guests.forEach(g=>{
+    const tr = document.createElement("tr");
+
+    const catOptions = state.categories.map((c,i)=>`<option value="${i}" ${i===g.categoria?"selected":""}>${c}</option>`).join("");
+    const respClass = g.risposta==="si"?"resp-si":g.risposta==="no"?"resp-no":"resp-attesa";
+
+    tr.innerHTML = `
+      <td><input type="text" value="${escapeHtml(g.nome)}" data-f="nome" placeholder="Nome invitato"></td>
+      <td><select data-f="categoria">${catOptions}</select></td>
+      <td><input type="number" min="1" value="${g.numPersone}" data-f="numPersone"></td>
+      <td><input type="number" min="0" value="${g.bimbiOver5}" data-f="bimbiOver5"></td>
+      <td><input type="number" min="0" value="${g.bimbiUnder5}" data-f="bimbiUnder5"></td>
+      <td style="text-align:center;"><input type="checkbox" class="chk" ${g.consegnato?"checked":""} data-f="consegnato"></td>
+      <td><select data-f="risposta" class="${respClass}">
+            <option value="attesa" ${g.risposta==="attesa"?"selected":""}>In attesa</option>
+            <option value="si" ${g.risposta==="si"?"selected":""}>Sì</option>
+            <option value="no" ${g.risposta==="no"?"selected":""}>No</option>
+          </select></td>
+      <td><button class="icon-btn" title="Rimuovi">✕</button></td>
+    `;
+
+    tr.querySelectorAll("[data-f]").forEach(el=>{
+      const field = el.dataset.f;
+      const ev = (el.tagName==="SELECT" || el.type==="checkbox") ? "change" : "input";
+      el.addEventListener(ev, ()=>{
+        if(el.type==="checkbox") g[field] = el.checked;
+        else if(el.type==="number") g[field] = el.value === "" ? 0 : Number(el.value);
+        else if(field==="categoria") g[field] = Number(el.value);
+        else g[field] = el.value;
+        save();
+        renderGuestStats();
+        if(field==="risposta"){
+          el.className = g.risposta==="si"?"resp-si":g.risposta==="no"?"resp-no":"resp-attesa";
+        }
+      });
+    });
+
+    tr.querySelector(".icon-btn").addEventListener("click", ()=>{
+      // remove from any table seating too
+      state.tables.forEach(t=> t.seats = t.seats.filter(id=>id!==g.id));
+      state.guests = state.guests.filter(x=>x.id!==g.id);
+      save(); renderGuests();
+    });
+
+    body.appendChild(tr);
+  });
+
+  renderGuestStats();
+}
+
+function escapeHtml(str){
+  return (str||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+document.getElementById("btnAddGuest").addEventListener("click", addGuest);
+
+document.getElementById("btnExport").addEventListener("click", ()=>{
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "matrimonio-backup.json";
+  a.click();
+});
+document.getElementById("btnImportTrigger").addEventListener("click", ()=>{
+  document.getElementById("btnImport").click();
+});
+document.getElementById("btnImport").addEventListener("change", (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = evt=>{
+    try{
+      const parsed = JSON.parse(evt.target.result);
+      if(parsed.categories && parsed.guests && parsed.tables && parsed.vendors){
+        state = parsed; save();
+        renderGuests(); renderSeating(); renderVendors();
+        alert("Backup importato con successo!");
+      } else alert("File non valido.");
+    }catch(err){ alert("Impossibile leggere il file."); }
+  };
+  reader.readAsText(file);
+});
+
+/* ==================================================================
+   TAB 2 — SEATING
+   ================================================================== */
+document.getElementById("btnAddTable").addEventListener("click", ()=>{
+  const nameInput = document.getElementById("newTableName");
+  const minInput = document.getElementById("newTableMin");
+  const maxInput = document.getElementById("newTableMax");
+  const min = Number(minInput.value)||1;
+  const max = Number(maxInput.value)||min;
+  if(max < min){ alert("Il massimo deve essere maggiore o uguale al minimo."); return; }
+  state.tables.push({
+    id: uid(),
+    nome: nameInput.value.trim() || ("Tavolo " + (state.tables.length+1)),
+    min, max, seats: []
+  });
+  nameInput.value = "";
+  save(); renderSeating();
+});
+
+function tableLoad(table){
+  return table.seats.reduce((s,gid)=>{
+    const g = state.guests.find(x=>x.id===gid);
+    return s + (g ? Number(g.numPersone)||0 : 0);
+  },0);
+}
+
+function renderSeating(){
+  // unassigned list
+  const assignedIds = new Set(state.tables.flatMap(t=>t.seats));
+  const unassigned = state.guests.filter(g=>!assignedIds.has(g.id));
+  const listEl = document.getElementById("unassignedList");
+  listEl.innerHTML = unassigned.length ? "" : `<div class="empty-hint">Tutti gli invitati sono stati assegnati 🎉</div>`;
+
+  unassigned.forEach(g=>{
+    const chip = document.createElement("div");
+    chip.className = "guest-chip";
+    chip.draggable = true;
+    chip.dataset.gid = g.id;
+    chip.innerHTML = `<span>${escapeHtml(g.nome) || "(senza nome)"}</span><span class="n">${g.numPersone}p</span>`;
+    chip.addEventListener("dragstart", e=>{
+      e.dataTransfer.setData("text/plain", g.id);
+      chip.classList.add("dragging");
+    });
+    chip.addEventListener("dragend", ()=> chip.classList.remove("dragging"));
+    listEl.appendChild(chip);
+  });
+
+  // tables
+  const area = document.getElementById("tablesArea");
+  area.innerHTML = "";
+  if(state.tables.length===0){
+    area.innerHTML = `<div class="empty-hint">Aggiungi il tuo primo tavolo qui sopra 🌸</div>`;
+    return;
+  }
+
+  state.tables.forEach(t=>{
+    const load = tableLoad(t);
+    const isUnder = load < t.min;
+    const isFull = load >= t.max;
+
+    const block = document.createElement("div");
+    block.className = "table-block";
+
+    const round = document.createElement("div");
+    round.className = "round-table" + (isUnder ? " under-min" : "") + (isFull && !isUnder ? " full" : "");
+    round.innerHTML = `
+      <div class="t-name">${escapeHtml(t.nome)}</div>
+      <div class="t-count">${load} / ${t.max} persone (min ${t.min})</div>
+      <div class="t-guests"></div>
+    `;
+
+    const guestsWrap = round.querySelector(".t-guests");
+    t.seats.forEach(gid=>{
+      const g = state.guests.find(x=>x.id===gid);
+      if(!g) return;
+      const mini = document.createElement("span");
+      mini.className = "mini-chip";
+      mini.draggable = true;
+      mini.dataset.gid = g.id;
+      mini.title = "Trascina per spostare o rimuovere";
+      mini.textContent = (g.nome || "?") + " (" + g.numPersone + "p)";
+      mini.addEventListener("dragstart", e=>{
+        e.dataTransfer.setData("text/plain", g.id);
+        e.dataTransfer.setData("from-table", t.id);
+      });
+      guestsWrap.appendChild(mini);
+    });
+
+    round.addEventListener("dragover", e=>{ e.preventDefault(); round.classList.add("dragover"); });
+    round.addEventListener("dragleave", ()=> round.classList.remove("dragover"));
+    round.addEventListener("drop", e=>{
+      e.preventDefault();
+      round.classList.remove("dragover");
+      const gid = e.dataTransfer.getData("text/plain");
+      const g = state.guests.find(x=>x.id===gid);
+      if(!g) return;
+      // remove from all tables first
+      state.tables.forEach(tt=> tt.seats = tt.seats.filter(id=>id!==gid));
+      const currentLoad = tableLoad(t);
+      if(currentLoad + Number(g.numPersone) > t.max){
+        alert(`Non entra! "${g.nome||"invitato"}" (${g.numPersone}p) supererebbe il massimo di ${t.max} per ${t.nome}.`);
+        save(); renderSeating();
+        return;
+      }
+      t.seats.push(gid);
+      save(); renderSeating();
+    });
+
+    const status = document.createElement("div");
+    status.className = "table-status " + (isUnder ? "warn" : "ok");
+    status.textContent = isUnder
+      ? `Mancano almeno ${t.min - load} persone per il minimo`
+      : (isFull ? "Tavolo pieno" : "Ok, dentro il range");
+
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "btn btn-danger btn-sm table-remove";
+    removeBtn.textContent = "Rimuovi tavolo";
+    removeBtn.addEventListener("click", ()=>{
+      if(t.seats.length && !confirm("Il tavolo contiene invitati: rimuoverlo li rimetterà tra i non assegnati. Continuare?")) return;
+      state.tables = state.tables.filter(x=>x.id!==t.id);
+      save(); renderSeating();
+    });
+
+    block.appendChild(round);
+    block.appendChild(status);
+    block.appendChild(removeBtn);
+    area.appendChild(block);
+  });
+
+  // allow dropping back onto the unassigned list to unassign
+  listEl.addEventListener("dragover", e=>e.preventDefault());
+  listEl.addEventListener("drop", e=>{
+    e.preventDefault();
+    const gid = e.dataTransfer.getData("text/plain");
+    state.tables.forEach(tt=> tt.seats = tt.seats.filter(id=>id!==gid));
+    save(); renderSeating();
+  });
+}
+
+/* ==================================================================
+   TAB 3 — VENDORS
+   ================================================================== */
+function renderVendorStats(){
+  const v = state.vendors;
+  const prenotati = v.filter(x=>x.prenotato).length;
+  const speso = v.reduce((s,x)=> s + (Number(x.prezzo)||0), 0);
+  const stats = [
+    [v.length, "Fornitori totali"],
+    [prenotati+"/"+v.length, "Prenotati"],
+    ["€ " + speso.toLocaleString('it-IT'), "Spesa prevista"],
+  ];
+  document.getElementById("vendorStats").innerHTML = stats.map(([n,l])=>`
+    <div class="stat-card"><div class="num">${n}</div><div class="label">${l}</div></div>
+  `).join("");
+}
+
+function renderVendors(){
+  const body = document.getElementById("vendorBody");
+  body.innerHTML = "";
+  state.vendors.forEach(v=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><input type="text" value="${escapeHtml(v.categoria)}" data-f="categoria" placeholder="es. Fiorista"></td>
+      <td><input type="text" value="${escapeHtml(v.nome)}" data-f="nome" placeholder="Nome fornitore"></td>
+      <td><label class="booked-toggle"><input type="checkbox" class="chk" ${v.prenotato?"checked":""} data-f="prenotato"> ${v.prenotato ? "Sì" : "No"}</label></td>
+      <td><input type="number" min="0" value="${v.prezzo}" data-f="prezzo" placeholder="0"></td>
+      <td><textarea data-f="dettagli" placeholder="contatti, note, indirizzo...">${escapeHtml(v.dettagli)}</textarea></td>
+      <td><button class="icon-btn" title="Rimuovi">✕</button></td>
+    `;
+    tr.querySelectorAll("[data-f]").forEach(el=>{
+      const field = el.dataset.f;
+      const ev = (el.type==="checkbox") ? "change" : "input";
+      el.addEventListener(ev, ()=>{
+        if(el.type==="checkbox"){
+          v[field] = el.checked;
+          el.closest("label").lastChild.textContent = " " + (el.checked ? "Sì" : "No");
+        } else if(el.type==="number"){
+          v[field] = el.value===""?0:Number(el.value);
+        } else {
+          v[field] = el.value;
+        }
+        save();
+        renderVendorStats();
+      });
+    });
+    tr.querySelector(".icon-btn").addEventListener("click", ()=>{
+      state.vendors = state.vendors.filter(x=>x.id!==v.id);
+      save(); renderVendors();
+    });
+    body.appendChild(tr);
+  });
+  renderVendorStats();
+}
+
+document.getElementById("btnAddVendor").addEventListener("click", ()=>{
+  state.vendors.push({ id: uid(), categoria:"", nome:"", prenotato:false, prezzo:0, dettagli:"" });
+  save(); renderVendors();
+});
+
+/* ==================================================================
+   INIT
+   ================================================================== */
+renderGuests();
+renderSeating();
+renderVendors();
+</script>
+</body>
+</html>
