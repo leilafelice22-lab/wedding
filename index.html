@@ -71,7 +71,7 @@
   .sprig.s1{ top:18px; left:6%; transform:rotate(-15deg);}
   .sprig.s2{ top:30px; right:8%; transform:rotate(18deg);}
   .sprig.s3{ bottom:8px; left:14%; transform:rotate(8deg);}
-
+ 
   /* ---------- Tabs ---------- */
   nav.tabs{
     display:flex;
@@ -100,12 +100,12 @@
     color:var(--white);
     box-shadow:var(--shadow);
   }
-
+ 
   main{ padding:0 6vw 80px; max-width:1320px; margin:0 auto; }
   section.panel{ display:none; animation:fade .25s ease; }
   section.panel.active{ display:block; }
   @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
-
+ 
   /* ---------- Cards & stats ---------- */
   .stats{
     display:grid;
@@ -131,7 +131,7 @@
   }
   .stat-card .num{ font-family:'Cormorant Garamond', serif; font-size:34px; font-weight:600; color:var(--lilla-deep); position:relative;}
   .stat-card .label{ font-size:12.5px; color:var(--ink-soft); font-weight:600; text-transform:uppercase; letter-spacing:.04em; position:relative;}
-
+ 
   .card{
     background:var(--white);
     border:1px solid var(--line);
@@ -142,7 +142,7 @@
   }
   .card h2{ margin:0 0 4px; font-size:24px; }
   .card .desc{ color:var(--ink-soft); font-size:13.5px; margin-bottom:16px;}
-
+ 
   /* buttons */
   .btn{
     border:none; cursor:pointer; font-family:'Quicksand',sans-serif; font-weight:700;
@@ -159,10 +159,10 @@
   .btn-danger:hover{ background:#f8d3de; }
   .btn-sm{ padding:6px 12px; font-size:12px; border-radius:9px;}
   .btn:disabled{ opacity:.45; cursor:not-allowed; }
-
+ 
   .toolbar{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
   .toolbar .actions{ display:flex; gap:8px; flex-wrap:wrap; }
-
+ 
   /* ---------- Table (guests) ---------- */
   .table-wrap{ overflow-x:auto; border-radius:14px; border:1px solid var(--line);}
   table.guests{ width:100%; border-collapse:collapse; min-width:1150px; font-size:13.5px;}
@@ -187,18 +187,18 @@
   select.resp-si{ background:var(--ok-bg); color:var(--ok); font-weight:700;}
   select.resp-no{ background:var(--danger-bg); color:var(--danger); font-weight:700;}
   select.resp-attesa{ background:var(--warn-bg); color:var(--warn); font-weight:700;}
-
+ 
   .icon-btn{ background:none; border:none; cursor:pointer; font-size:16px; color:var(--danger); padding:4px 6px; border-radius:8px; }
   .icon-btn:hover{ background:var(--danger-bg); }
-
+ 
   /* categories settings */
   .cat-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;}
   .cat-row input{ border:1px solid var(--line); border-radius:9px; padding:7px 10px; font-family:'Quicksand',sans-serif; font-size:13px; min-width:150px; flex:1;}
-
+ 
   /* ---------- Seating ---------- */
   .seating-layout{ display:grid; grid-template-columns: 300px 1fr; gap:22px; align-items:flex-start; }
   @media(max-width:880px){ .seating-layout{ grid-template-columns:1fr; } }
-
+ 
   .unassigned-list{ display:flex; flex-direction:column; gap:8px; max-height:640px; overflow-y:auto; padding-right:4px;}
   .guest-chip{
     background:var(--white); border:1.5px solid var(--lilla-soft); border-radius:12px;
@@ -209,7 +209,7 @@
   .guest-chip:hover{ border-color:var(--lilla); box-shadow:0 3px 10px rgba(138,104,184,.15); transform:translateY(-1px);}
   .guest-chip .n{ background:var(--limone-soft); color:#7a6a10; font-size:11px; font-weight:700; padding:2px 7px; border-radius:999px; }
   .guest-chip.dragging{ opacity:.4; }
-
+ 
   .tables-area{ display:flex; flex-wrap:wrap; gap:28px; }
   .table-block{ display:flex; flex-direction:column; align-items:center; width:220px;}
   .round-table{
@@ -237,7 +237,7 @@
   .add-table-form{ display:flex; gap:8px; flex-wrap:wrap; align-items:end; }
   .field{ display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--ink-soft); font-weight:700;}
   .field input{ border:1px solid var(--line); border-radius:9px; padding:8px 10px; font-family:'Quicksand'; width:90px;}
-
+ 
   /* ---------- Vendors ---------- */
   table.vendors{ width:100%; border-collapse:collapse; min-width:900px; font-size:13.5px;}
   table.vendors th{ background:var(--lilla-soft); color:var(--lilla-deep); text-align:left; padding:10px; font-size:12px; text-transform:uppercase; letter-spacing:.03em;}
@@ -248,44 +248,44 @@
   table.vendors input[type=number]{ border:1px solid var(--line); border-radius:8px; padding:6px 8px; font-family:'Quicksand'; font-size:13px; width:100px;}
   table.vendors textarea{ resize:vertical; min-height:38px; font-size:12.5px;}
   .booked-toggle{ display:flex; align-items:center; gap:6px; cursor:pointer; }
-
+ 
   footer{ text-align:center; padding:30px; color:var(--ink-soft); font-size:12px;}
   footer span{ color:var(--lilla-deep); font-weight:700;}
-
+ 
   .empty-hint{ text-align:center; padding:30px; color:var(--ink-soft); font-size:13.5px; font-style:italic;}
-
+ 
   ::-webkit-scrollbar{ height:8px; width:8px; }
   ::-webkit-scrollbar-thumb{ background:var(--lilla-soft); border-radius:8px;}
 </style>
 </head>
 <body>
-
+ 
 <header>
   <span class="sprig s1">🌿</span><span class="sprig s2">🌸</span><span class="sprig s3">🌿</span>
   <div class="eyebrow">Wedding Planner</div>
   <h1>Il Nostro Matrimonio</h1>
   <div class="sub">Invitati · Seating · Fornitori — tutto in un posto solo</div>
 </header>
-
+ 
 <nav class="tabs">
   <button data-tab="invitati" class="active">💌 Invitati</button>
   <button data-tab="seating">🌸 Seating Map</button>
   <button data-tab="fornitori">🧾 Fornitori</button>
 </nav>
-
+ 
 <main>
-
+ 
   <!-- ============ TAB 1: INVITATI ============ -->
   <section id="tab-invitati" class="panel active">
-
+ 
     <div class="stats" id="guestStats"></div>
-
+ 
     <div class="card">
       <h2>Categorie invitati</h2>
       <div class="desc">Rinomina le categorie come preferisci — verranno usate nel menu a tendina della lista.</div>
       <div class="cat-row" id="catRow"></div>
     </div>
-
+ 
     <div class="card">
       <div class="toolbar">
         <div>
@@ -319,7 +319,7 @@
       <div id="guestEmpty" class="empty-hint" style="display:none;">Nessun invitato ancora — aggiungine uno per iniziare 💌</div>
     </div>
   </section>
-
+ 
   <!-- ============ TAB 2: SEATING ============ -->
   <section id="tab-seating" class="panel">
     <div class="card">
@@ -338,7 +338,7 @@
         <button class="btn btn-accent" id="btnAddTable">＋ Aggiungi tavolo</button>
       </div>
     </div>
-
+ 
     <div class="card">
       <h2>Piantina</h2>
       <div class="desc">Trascina gli invitati sui tavoli. Il sistema blocca se superi il massimo e segnala in giallo se sei sotto il minimo.</div>
@@ -351,7 +351,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ============ TAB 3: FORNITORI ============ -->
   <section id="tab-fornitori" class="panel">
     <div class="stats" id="vendorStats"></div>
@@ -366,10 +366,12 @@
         <table class="vendors">
           <thead>
             <tr>
-              <th style="width:16%;">Categoria</th>
-              <th style="width:18%;">Nome fornitore</th>
-              <th style="width:10%;">Prenotato</th>
-              <th style="width:12%;">Prezzo (€)</th>
+              <th style="width:13%;">Categoria</th>
+              <th style="width:15%;">Nome fornitore</th>
+              <th style="width:9%;">Prenotato</th>
+              <th style="width:11%;">Prezzo (€)</th>
+              <th style="width:9%;">A persona</th>
+              <th style="width:11%;">Totale</th>
               <th>Dettagli / contatti</th>
               <th style="width:40px;"></th>
             </tr>
@@ -379,41 +381,41 @@
       </div>
     </div>
   </section>
-
+ 
 </main>
-
+ 
 <footer>Fatto con <span>🌸</span> per il grande giorno</footer>
-
+ 
 <script>
 /* ==================================================================
    STATE
    ================================================================== */
 const STORAGE_KEY = "weddingPlannerData_v1";
 const uid = () => Math.random().toString(36).slice(2,10);
-
+ 
 const defaultState = () => ({
   categories: ["Amici Sposo","Amici Sposa","Famiglia Sposo","Famiglia Sposa","In comune"],
   guests: [],
   tables: [],
   vendors: [
-    ["Location","",false,"",""],
-    ["Catering","",false,"",""],
-    ["Fotografo","",false,"",""],
-    ["Videomaker","",false,"",""],
-    ["Fiorista","",false,"",""],
-    ["Musica / DJ","",false,"",""],
-    ["Wedding Planner","",false,"",""],
-    ["Trucco e Parrucco","",false,"",""],
-    ["Abito Sposa","",false,"",""],
-    ["Abito Sposo","",false,"",""],
-    ["Fedi","",false,"",""],
-    ["Auto / Noleggio","",false,"",""],
-    ["Torta Nuziale","",false,"",""],
-    ["Inviti e Partecipazioni","",false,"",""],
-    ["Celebrante","",false,"",""],
-  ].map(v => ({ id: uid(), categoria:v[0], nome:v[1], prenotato:v[2], prezzo:v[3], dettagli:v[4] }))
+    ["Location","",false,"","",false],
+    ["Catering","",false,"","",true],
+    ["Fotografo","",false,"","",false],
+    ["Videomaker","",false,"","",false],
+    ["Fiorista","",false,"","",false],
+    ["Musica / DJ","",false,"","",false],
+    ["Wedding Planner","",false,"","",false],
+    ["Trucco e Parrucco","",false,"","",false],
+    ["Abito Sposa","",false,"","",false],
+    ["Abito Sposo","",false,"","",false],
+    ["Fedi","",false,"","",false],
+    ["Auto / Noleggio","",false,"","",false],
+    ["Torta Nuziale","",false,"","",false],
+    ["Inviti e Partecipazioni","",false,"","",false],
+    ["Celebrante","",false,"","",false],
+  ].map(v => ({ id: uid(), categoria:v[0], nome:v[1], prenotato:v[2], prezzo:v[3], dettagli:v[4], perPersona:v[5] }))
 });
-
+ 
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -426,7 +428,7 @@ function loadState(){
 }
 let state = loadState();
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-
+ 
 /* ==================================================================
    TAB SWITCHING
    ================================================================== */
@@ -437,9 +439,10 @@ document.querySelectorAll("nav.tabs button").forEach(btn=>{
     btn.classList.add("active");
     document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
     if(btn.dataset.tab === "seating") renderSeating();
+    if(btn.dataset.tab === "fornitori") renderVendors();
   });
 });
-
+ 
 /* ==================================================================
    TAB 1 — GUESTS
    ================================================================== */
@@ -456,7 +459,7 @@ function renderCategories(){
     row.appendChild(input);
   });
 }
-
+ 
 function addGuest(){
   state.guests.push({
     id: uid(), nome:"", categoria:0, numPersone:1,
@@ -464,7 +467,7 @@ function addGuest(){
   });
   save(); renderGuests();
 }
-
+ 
 function renderGuestStats(){
   const g = state.guests;
   const totPersone = g.reduce((s,x)=>s+(Number(x.numPersone)||0),0);
@@ -474,7 +477,7 @@ function renderGuestStats(){
   const over5 = g.reduce((s,x)=>s+(Number(x.bimbiOver5)||0),0);
   const under5 = g.reduce((s,x)=>s+(Number(x.bimbiUnder5)||0),0);
   const consegnati = g.filter(x=>x.consegnato).length;
-
+ 
   const stats = [
     [totPersone, "Persone totali"],
     [confermati, "Confermate (sì)"],
@@ -488,20 +491,20 @@ function renderGuestStats(){
     <div class="stat-card"><div class="num">${n}</div><div class="label">${l}</div></div>
   `).join("");
 }
-
+ 
 function renderGuests(){
   renderCategories();
   const body = document.getElementById("guestBody");
   const empty = document.getElementById("guestEmpty");
   body.innerHTML = "";
   empty.style.display = state.guests.length ? "none" : "block";
-
+ 
   state.guests.forEach(g=>{
     const tr = document.createElement("tr");
-
+ 
     const catOptions = state.categories.map((c,i)=>`<option value="${i}" ${i===g.categoria?"selected":""}>${c}</option>`).join("");
     const respClass = g.risposta==="si"?"resp-si":g.risposta==="no"?"resp-no":"resp-attesa";
-
+ 
     tr.innerHTML = `
       <td><input type="text" value="${escapeHtml(g.nome)}" data-f="nome" placeholder="Nome invitato"></td>
       <td><select data-f="categoria">${catOptions}</select></td>
@@ -516,7 +519,7 @@ function renderGuests(){
           </select></td>
       <td><button class="icon-btn" title="Rimuovi">✕</button></td>
     `;
-
+ 
     tr.querySelectorAll("[data-f]").forEach(el=>{
       const field = el.dataset.f;
       const ev = (el.tagName==="SELECT" || el.type==="checkbox") ? "change" : "input";
@@ -532,26 +535,26 @@ function renderGuests(){
         }
       });
     });
-
+ 
     tr.querySelector(".icon-btn").addEventListener("click", ()=>{
       // remove from any table seating too
       state.tables.forEach(t=> t.seats = t.seats.filter(id=>id!==g.id));
       state.guests = state.guests.filter(x=>x.id!==g.id);
       save(); renderGuests();
     });
-
+ 
     body.appendChild(tr);
   });
-
+ 
   renderGuestStats();
 }
-
+ 
 function escapeHtml(str){
   return (str||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
-
+ 
 document.getElementById("btnAddGuest").addEventListener("click", addGuest);
-
+ 
 document.getElementById("btnExport").addEventListener("click", ()=>{
   const blob = new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
   const a = document.createElement("a");
@@ -578,7 +581,7 @@ document.getElementById("btnImport").addEventListener("change", (e)=>{
   };
   reader.readAsText(file);
 });
-
+ 
 /* ==================================================================
    TAB 2 — SEATING
    ================================================================== */
@@ -597,21 +600,21 @@ document.getElementById("btnAddTable").addEventListener("click", ()=>{
   nameInput.value = "";
   save(); renderSeating();
 });
-
+ 
 function tableLoad(table){
   return table.seats.reduce((s,gid)=>{
     const g = state.guests.find(x=>x.id===gid);
     return s + (g ? Number(g.numPersone)||0 : 0);
   },0);
 }
-
+ 
 function renderSeating(){
   // unassigned list
   const assignedIds = new Set(state.tables.flatMap(t=>t.seats));
   const unassigned = state.guests.filter(g=>!assignedIds.has(g.id));
   const listEl = document.getElementById("unassignedList");
   listEl.innerHTML = unassigned.length ? "" : `<div class="empty-hint">Tutti gli invitati sono stati assegnati 🎉</div>`;
-
+ 
   unassigned.forEach(g=>{
     const chip = document.createElement("div");
     chip.className = "guest-chip";
@@ -625,7 +628,7 @@ function renderSeating(){
     chip.addEventListener("dragend", ()=> chip.classList.remove("dragging"));
     listEl.appendChild(chip);
   });
-
+ 
   // tables
   const area = document.getElementById("tablesArea");
   area.innerHTML = "";
@@ -633,15 +636,15 @@ function renderSeating(){
     area.innerHTML = `<div class="empty-hint">Aggiungi il tuo primo tavolo qui sopra 🌸</div>`;
     return;
   }
-
+ 
   state.tables.forEach(t=>{
     const load = tableLoad(t);
     const isUnder = load < t.min;
     const isFull = load >= t.max;
-
+ 
     const block = document.createElement("div");
     block.className = "table-block";
-
+ 
     const round = document.createElement("div");
     round.className = "round-table" + (isUnder ? " under-min" : "") + (isFull && !isUnder ? " full" : "");
     round.innerHTML = `
@@ -649,7 +652,7 @@ function renderSeating(){
       <div class="t-count">${load} / ${t.max} persone (min ${t.min})</div>
       <div class="t-guests"></div>
     `;
-
+ 
     const guestsWrap = round.querySelector(".t-guests");
     t.seats.forEach(gid=>{
       const g = state.guests.find(x=>x.id===gid);
@@ -666,7 +669,7 @@ function renderSeating(){
       });
       guestsWrap.appendChild(mini);
     });
-
+ 
     round.addEventListener("dragover", e=>{ e.preventDefault(); round.classList.add("dragover"); });
     round.addEventListener("dragleave", ()=> round.classList.remove("dragover"));
     round.addEventListener("drop", e=>{
@@ -686,13 +689,13 @@ function renderSeating(){
       t.seats.push(gid);
       save(); renderSeating();
     });
-
+ 
     const status = document.createElement("div");
     status.className = "table-status " + (isUnder ? "warn" : "ok");
     status.textContent = isUnder
       ? `Mancano almeno ${t.min - load} persone per il minimo`
       : (isFull ? "Tavolo pieno" : "Ok, dentro il range");
-
+ 
     const removeBtn = document.createElement("button");
     removeBtn.className = "btn btn-danger btn-sm table-remove";
     removeBtn.textContent = "Rimuovi tavolo";
@@ -701,13 +704,13 @@ function renderSeating(){
       state.tables = state.tables.filter(x=>x.id!==t.id);
       save(); renderSeating();
     });
-
+ 
     block.appendChild(round);
     block.appendChild(status);
     block.appendChild(removeBtn);
     area.appendChild(block);
   });
-
+ 
   // allow dropping back onto the unassigned list to unassign
   listEl.addEventListener("dragover", e=>e.preventDefault());
   listEl.addEventListener("drop", e=>{
@@ -717,14 +720,22 @@ function renderSeating(){
     save(); renderSeating();
   });
 }
-
+ 
 /* ==================================================================
    TAB 3 — VENDORS
    ================================================================== */
+function confirmedPersone(){
+  return state.guests.filter(g=>g.risposta==="si").reduce((s,g)=>s+(Number(g.numPersone)||0),0);
+}
+function vendorTotal(v){
+  const prezzo = Number(v.prezzo)||0;
+  return v.perPersona ? prezzo * confirmedPersone() : prezzo;
+}
+ 
 function renderVendorStats(){
   const v = state.vendors;
   const prenotati = v.filter(x=>x.prenotato).length;
-  const speso = v.reduce((s,x)=> s + (Number(x.prezzo)||0), 0);
+  const speso = v.reduce((s,x)=> s + vendorTotal(x), 0);
   const stats = [
     [v.length, "Fornitori totali"],
     [prenotati+"/"+v.length, "Prenotati"],
@@ -734,27 +745,31 @@ function renderVendorStats(){
     <div class="stat-card"><div class="num">${n}</div><div class="label">${l}</div></div>
   `).join("");
 }
-
+ 
 function renderVendors(){
   const body = document.getElementById("vendorBody");
   body.innerHTML = "";
   state.vendors.forEach(v=>{
     const tr = document.createElement("tr");
+    const totalCell = document.createElement("span");
     tr.innerHTML = `
       <td><input type="text" value="${escapeHtml(v.categoria)}" data-f="categoria" placeholder="es. Fiorista"></td>
       <td><input type="text" value="${escapeHtml(v.nome)}" data-f="nome" placeholder="Nome fornitore"></td>
       <td><label class="booked-toggle"><input type="checkbox" class="chk" ${v.prenotato?"checked":""} data-f="prenotato"> ${v.prenotato ? "Sì" : "No"}</label></td>
       <td><input type="number" min="0" value="${v.prezzo}" data-f="prezzo" placeholder="0"></td>
+      <td style="text-align:center;"><label class="booked-toggle" title="Moltiplica per le persone confermate (risposta Sì)"><input type="checkbox" class="chk" ${v.perPersona?"checked":""} data-f="perPersona"></label></td>
+      <td class="vendor-total" style="font-weight:700; color:var(--lilla-deep); white-space:nowrap;">€ ${vendorTotal(v).toLocaleString('it-IT')}${v.perPersona ? `<div style="font-weight:500; font-size:11px; color:var(--ink-soft);">${confirmedPersone()} persone conf.</div>` : ""}</td>
       <td><textarea data-f="dettagli" placeholder="contatti, note, indirizzo...">${escapeHtml(v.dettagli)}</textarea></td>
       <td><button class="icon-btn" title="Rimuovi">✕</button></td>
     `;
+    const totalTd = tr.querySelector(".vendor-total");
     tr.querySelectorAll("[data-f]").forEach(el=>{
       const field = el.dataset.f;
       const ev = (el.type==="checkbox") ? "change" : "input";
       el.addEventListener(ev, ()=>{
         if(el.type==="checkbox"){
           v[field] = el.checked;
-          el.closest("label").lastChild.textContent = " " + (el.checked ? "Sì" : "No");
+          if(field==="prenotato") el.closest("label").lastChild.textContent = " " + (el.checked ? "Sì" : "No");
         } else if(el.type==="number"){
           v[field] = el.value===""?0:Number(el.value);
         } else {
@@ -762,6 +777,7 @@ function renderVendors(){
         }
         save();
         renderVendorStats();
+        totalTd.innerHTML = `€ ${vendorTotal(v).toLocaleString('it-IT')}${v.perPersona ? `<div style="font-weight:500; font-size:11px; color:var(--ink-soft);">${confirmedPersone()} persone conf.</div>` : ""}`;
       });
     });
     tr.querySelector(".icon-btn").addEventListener("click", ()=>{
@@ -772,12 +788,12 @@ function renderVendors(){
   });
   renderVendorStats();
 }
-
+ 
 document.getElementById("btnAddVendor").addEventListener("click", ()=>{
   state.vendors.push({ id: uid(), categoria:"", nome:"", prenotato:false, prezzo:0, dettagli:"" });
   save(); renderVendors();
 });
-
+ 
 /* ==================================================================
    INIT
    ================================================================== */
@@ -787,3 +803,4 @@ renderVendors();
 </script>
 </body>
 </html>
+ 
